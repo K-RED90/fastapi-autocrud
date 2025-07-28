@@ -1,0 +1,50 @@
+# Include the README file
+include README.md
+include INSTALL.md
+include LICENSE
+
+# Include the package logo
+include auto_crud/fastcrud_logo.jpg
+
+# Include Python files
+recursive-include auto_crud *.py
+
+# Include test files
+recursive-include tests *.py
+
+# Include sample files
+recursive-include sample *.py
+recursive-include sample *.txt
+recursive-include sample *.md
+
+# Include configuration files
+include pyproject.toml
+include requirements.txt
+include setup.py
+
+# Include GitHub workflows
+recursive-include .github *.yml
+recursive-include .github *.yaml
+
+# Include documentation
+recursive-include docs *.md
+recursive-include docs *.rst
+recursive-include docs *.txt
+
+# Exclude unnecessary files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.egg-info
+global-exclude .pytest_cache
+global-exclude .ruff_cache
+global-exclude .venv
+global-exclude venv
+global-exclude dist
+global-exclude build
+global-exclude *.db
+global-exclude *.sqlite
+global-exclude *.log 
