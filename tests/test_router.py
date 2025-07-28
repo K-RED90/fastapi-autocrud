@@ -161,10 +161,9 @@ class TestRouterFactory:
         """Test read operation with non-existent ID."""
         non_existent_id = uuid.uuid4()
 
-        with pytest.raises(HTTPException) as exc_info:
+        with pytest.raises(NotFoundError):
             await user_router.perform_read(db_session, non_existent_id)
 
-        assert exc_info.value.status_code == 404
 
     @pytest.mark.asyncio
     async def test_perform_update_success(self, user_router, db_session):

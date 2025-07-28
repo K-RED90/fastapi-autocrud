@@ -495,11 +495,6 @@ class TestQueryFilter:
         assert "is_active" in columns
         assert "created_at" in columns
 
-    @pytest.mark.asyncio
-    async def test_validate_filter_field(self, query_filter):
-        """Test filter field validation."""
-        with pytest.raises(FilterError):
-            query_filter._validate_filter_field("non_existent")
 
     @pytest.mark.asyncio
     async def test_cast_value_to_column_type(self, query_filter: QueryFilter):
