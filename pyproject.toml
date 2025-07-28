@@ -93,14 +93,6 @@ exclude = [".git", "__pycache__", "build", "dist", ".venv", "migrations"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["auto_crud"]
-include = [
-    "auto_crud/**/*.py",
-    "auto_crud/**/*.png",
-    "README.md",
-    "readme.md",
-    "LICENSE",
-    "MANIFEST.in",
-]
 
 [tool.ruff.lint.per-file-ignores]
 "auto_crud/__init__.py" = ["F401"]
