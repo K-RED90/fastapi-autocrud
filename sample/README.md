@@ -26,10 +26,9 @@ This is a comprehensive example demonstrating all FastAPI-AutoCRUD features and 
 - ✅ Custom search implementations
 
 #### 4. **Sorting & Pagination**
-- ✅ Multi-field sorting
-- ✅ Custom sort orders
 - ✅ Default sorting
 - ✅ Sort field validation
+- ✅ Sorting with configurable field and direction
 
 #### 5. **Custom Actions**
 - ✅ Extended endpoints with business logic

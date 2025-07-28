@@ -70,7 +70,6 @@ class RouterFactory(Generic[ModelType, PrimaryKeyType, CreateSchemaType, UpdateS
         max_page_size: int = 100,
         # Search and sort configuration
         search_fields: Optional[List[str]] = None,
-        sort_fields: Optional[List[str]] = None,
         sort_default: str = "id",
         # Response configuration
         prefetch: Optional[List[str]] = None,
@@ -117,7 +116,6 @@ class RouterFactory(Generic[ModelType, PrimaryKeyType, CreateSchemaType, UpdateS
         self.max_page_size = max_page_size
 
         self.search_fields = search_fields or []
-        self.sort_fields = sort_fields or []
         self.sort_default = sort_default
 
         self.prefetch = prefetch or []

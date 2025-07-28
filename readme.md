@@ -110,7 +110,7 @@ user_router_factory = RouterFactory(
     enable_sorting=True,
     enable_filters=True,
     search_fields=["username", "email"],
-    sort_fields=["username", "email"],
+    sort_default="-created_at", # sort by created_at in descending order
     page_size=20,
     max_page_size=100,
 )
@@ -258,25 +258,23 @@ GET /users?search=john
 
 ### 6. Sorting
 
-Multi-field sorting with configurable fields and directions.
+Sorting with configurable field and direction.
 
 **Configuration:**
 ```python
 user_router_factory = RouterFactory(
     ...,
     enable_sorting=True,
-    sort_fields=["username", "email", "created_at"],
-    sort_default="created_at",
+    sort_default="-created_at", # sort by created_at in descending order
 )
 ```
 
 **Client Usage:**
 ```
-GET /users?sort_by=username,-created_at
+GET /users?sort_by=-created_at
 ```
 
 **Explanation:**
-- **Multi-field:** Sort by multiple fields in order.
 - **Direction:** Prefix with `-` for descending order.
 - **Default:** Falls back to `sort_default` if no sorting specified.
 
@@ -375,8 +373,7 @@ user_router_factory = UserRouterFactory(
     enable_sorting=True,
     enable_filters=True,
     search_fields=["username", "email", "full_name"],
-    sort_fields=["username", "email", "created_at"],
-    sort_default="created_at",
+    sort_default="-created_at", # sort by created_at in descending order
     page_size=20,
     max_page_size=100,
     prefetch=["profile", "posts"],

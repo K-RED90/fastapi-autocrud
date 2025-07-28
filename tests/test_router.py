@@ -62,7 +62,6 @@ class TestRouterFactory:
             page_size=50,
             max_page_size=200,
             search_fields=["username", "email"],
-            sort_fields=["username", "created_at"],
             sort_default="username",
         )
 
@@ -80,8 +79,6 @@ class TestRouterFactory:
         assert router.page_size == 50
         assert router.max_page_size == 200
         assert router.search_fields == ["username", "email"]
-        assert router.sort_fields == ["username", "created_at"]
-        assert router.sort_default == "username"
         assert router.sort_default == "username"
 
     @pytest.mark.asyncio
@@ -515,7 +512,7 @@ class TestRouterFactoryIntegration:
             enable_sorting=True,
             enable_filters=True,
             search_fields=["username", "email"],
-            sort_fields=["username", "created_at"],
+            sort_default="-created_at",
             filter_spec={"username": ("eq", "in", "contains")},
         )
 
@@ -687,19 +684,6 @@ class TestRouterFactoryEdgeCases:
         )
 
         assert router.search_fields == []
-
-    @pytest.mark.asyncio
-    async def test_router_with_none_sort_fields(self, session_factory):
-        """Test router with None sort fields."""
-        router = RouterFactory(
-            crud=BaseCRUD[User, uuid.UUID, UserCreate, UserUpdate](model=User),
-            session_factory=session_factory,
-            create_schema=UserCreate,
-            update_schema=UserUpdate,
-            sort_fields=None,
-        )
-
-        assert router.sort_fields == []
 
     @pytest.mark.asyncio
     async def test_router_with_none_prefetch(self, session_factory):
