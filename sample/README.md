@@ -263,13 +263,6 @@ filters = [
 - Display name generation
 - Online status detection
 
-### 6. **Business Logic**
-- Role-based permissions
-- Content ownership validation
-- Spam detection
-- Status management
-- Analytics tracking
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -295,92 +288,11 @@ python -m sample.main
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
-## 📈 Performance Features
-
-### 1. **Optimized Queries**
-- Lazy loading of relationships
-- Efficient pagination
-- Indexed fields for fast filtering
-- Optimized bulk operations
-
-### 2. **Caching Strategy**
-- Query result caching
-- Relationship caching
-- Analytics aggregation
-
-### 3. **Database Optimization**
-- Proper indexing
-- Efficient joins
-- Query optimization
-- Connection pooling
-
-## 🔒 Security Features
-
-### 1. **Authentication & Authorization**
-- Role-based access control
-- Action-based permissions
-- Content ownership validation
-
-### 2. **Data Validation**
-- Schema-level validation
-- Business rule validation
-- Input sanitization
-- SQL injection prevention
-
-### 3. **Audit Trail**
-- Comprehensive logging
-- Analytics tracking
-- User activity monitoring
-- Change tracking
-
-## 🧪 Testing
-
-### Test Coverage
-- Unit tests for all CRUD operations
-- Integration tests for relationships
-- Performance tests for bulk operations
-- Security tests for permissions
-
-### Example Test Cases
-```python
-# Test custom actions
-async def test_user_follow():
-    # Test follow/unfollow functionality
-    
-# Test hooks
-async def test_password_hashing():
-    # Test password hashing in hooks
-    
-# Test filtering
-async def test_complex_filters():
-    # Test advanced filtering
-```
-
-## 📊 Monitoring & Analytics
-
-### 1. **Performance Metrics**
-- Response time tracking
-- Database query optimization
-- Memory usage monitoring
-- Error rate tracking
-
-### 2. **Business Metrics**
-- User engagement
-- Content popularity
-- System usage patterns
-- Error analysis
-
-### 3. **Health Checks**
-- Database connectivity
-- Service availability
-- Performance thresholds
-- Error monitoring
-
 ## 🔧 Configuration
 
 ### Environment Variables
 ```bash
-DATABASE_URL=postgresql://user:pass@localhost/dbname
+DATABASE_URL=postgresql+asyncpg://user:pass@localhost/dbname
 DEBUG=True
 LOG_LEVEL=INFO
 ```
@@ -388,7 +300,7 @@ LOG_LEVEL=INFO
 ### Database Configuration
 ```python
 # Configure your database connection
-DATABASE_URL = "postgresql://user:pass@localhost/autocrud_example"
+DATABASE_URL = "postgresql+asyncpg://user:pass@localhost/autocrud_example"
 ```
 
 ## 🤝 Contributing
@@ -403,7 +315,7 @@ This example demonstrates the full capabilities of FastAPI-AutoCRUD. Feel free t
 
 ## 📚 Learning Resources
 
-- [FastAPI-AutoCRUD Documentation](https://autocrud.readthedocs.io/)
+- [FastAPI-AutoCRUD Documentation](../readme.md)
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
 - [Pydantic Documentation](https://pydantic-docs.helpmanual.io/)
