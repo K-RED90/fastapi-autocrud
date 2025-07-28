@@ -197,6 +197,232 @@ user_router_factory = RouterFactory(
 - **Performance:** Restricting operators helps optimize database queries.
 - **Flexibility:** Support for complex logical expressions with `and`, `or`, `not` operators.
 
+### 3.1. FilterParam Class - Developer Guide
+
+The `FilterParam` class is the core component of FastAPI-AutoCRUD's filtering system. It provides a type-safe, flexible way to build complex database queries programmatically.
+
+#### FilterParam Structure
+
+```python
+from auto_crud.core.schemas.pagination import FilterParam
+
+# Basic filter
+filter_param = FilterParam(
+    field="username",
+    operator="eq",
+    value="john_doe"
+)
+
+```
+
+#### Supported Operators by Data Type
+
+**String Fields:**
+```python
+# Exact match
+FilterParam(field="username", operator="eq", value="john")
+
+# Case-insensitive search
+FilterParam(field="email", operator="ilike", value="%gmail%")
+
+# Pattern matching
+FilterParam(field="name", operator="startswith", value="John")
+FilterParam(field="description", operator="contains", value="important")
+
+# Multiple values
+FilterParam(field="status", operator="in", value=["active", "pending"])
+```
+
+**Numeric Fields:**
+```python
+# Comparisons
+FilterParam(field="age", operator="gte", value=18)
+FilterParam(field="price", operator="between", value=[10.0, 100.0])
+
+# Range queries
+FilterParam(field="score", operator="gt", value=80)
+FilterParam(field="quantity", operator="le", value=100)
+```
+
+**DateTime Fields:**
+```python
+from datetime import datetime, date
+
+# Date comparisons
+FilterParam(field="created_at", operator="gte", value=date(2024, 1, 1))
+FilterParam(field="updated_at", operator="between", value=[
+    datetime(2024, 1, 1, 0, 0, 0),
+    datetime(2024, 12, 31, 23, 59, 59)
+])
+```
+
+**Boolean Fields:**
+```python
+# Boolean checks
+FilterParam(field="is_active", operator="eq", value=True)
+FilterParam(field="is_verified", operator="is_not_null", value=True)
+```
+
+**UUID Fields:**
+```python
+import uuid
+
+# UUID comparisons
+FilterParam(field="user_id", operator="eq", value=uuid.uuid4())
+FilterParam(field="session_id", operator="in", value=[uuid1, uuid2, uuid3])
+```
+
+#### Logical Operators for Complex Queries
+
+**AND Operator:**
+```python
+# Find users who are active AND over 18
+and_filter = FilterParam(
+    operator="and",
+    value=[
+        FilterParam(field="status", operator="eq", value="active"),
+        FilterParam(field="age", operator="gte", value=18)
+    ]
+)
+```
+
+**OR Operator:**
+```python
+# Find users who are either admins OR verified
+or_filter = FilterParam(
+    operator="or",
+    value=[
+        FilterParam(field="role", operator="eq", value="admin"),
+        FilterParam(field="is_verified", operator="eq", value=True)
+    ]
+)
+```
+
+**NOT Operator:**
+```python
+# Find users who are NOT inactive
+not_filter = FilterParam(
+    operator="not",
+    value=[
+        FilterParam(field="status", operator="eq", value="inactive")
+    ]
+)
+```
+
+#### Nested Relationships
+
+FilterParam supports filtering on related models through dot notation:
+
+```python
+# Filter users by their profile information
+FilterParam(field="profile.bio", operator="contains", value="developer")
+
+# Filter posts by author information
+FilterParam(field="author.username", operator="eq", value="john_doe")
+
+# Filter orders by customer details
+FilterParam(field="customer.address.city", operator="eq", value="New York")
+```
+
+#### Using FilterParam in Custom Endpoints
+
+```python
+from auto_crud.core.crud.decorators import action
+from auto_crud.core.schemas.pagination import FilterParam
+
+class UserRouterFactory(RouterFactory[User, uuid.UUID, UserCreate, UserUpdate]):
+    
+    @action(method="GET", detail=False, url_path="premium")
+    async def get_premium_users(self, session: AsyncSession):
+        """Get all premium users with complex filtering."""
+        
+        filters = [
+            FilterParam(field="subscription_type", operator="eq", value="premium"),
+            FilterParam(
+                operator="and",
+                value=[
+                    FilterParam(field="last_login", operator="gte", value=date(2024, 1, 1)),
+                    FilterParam(field="is_active", operator="eq", value=True)
+                ]
+            )
+        ]
+        
+        return await self.crud.list_objects(session, filters=filters)
+    
+    @action(method="GET", detail=False, url_path="search")
+    async def search_users(self, session: AsyncSession, q: str):
+        """Custom search endpoint with multiple field matching."""
+        
+        filters = [
+            FilterParam(
+                operator="or",
+                value=[
+                    FilterParam(field="username", operator="ilike", value=f"%{q}%"),
+                    FilterParam(field="email", operator="ilike", value=f"%{q}%"),
+                    FilterParam(field="full_name", operator="ilike", value=f"%{q}%")
+                ]
+            )
+        ]
+        
+        return await self.crud.list_objects(session, filters=filters)
+```
+
+#### Advanced Filtering Patterns
+
+**Date Range Queries:**
+```python
+from datetime import datetime, timedelta
+
+# Last 30 days
+end_date = datetime.now()
+start_date = end_date - timedelta(days=30)
+
+date_filter = FilterParam(
+    field="created_at",
+    operator="between",
+    value=[start_date, end_date]
+)
+```
+
+**Multi-level Nested Filters:**
+```python
+# Filter posts by author's profile information
+nested_filter = FilterParam(
+    field="author.profile.location.city",
+    operator="eq",
+    value="San Francisco"
+)
+```
+
+**Complex Logical Combinations:**
+```python
+# Find active users who are either premium OR have high engagement
+complex_filter = FilterParam(
+    operator="and",
+    value=[
+        FilterParam(field="status", operator="eq", value="active"),
+        FilterParam(
+            operator="or",
+            value=[
+                FilterParam(field="subscription_type", operator="eq", value="premium"),
+                FilterParam(field="engagement_score", operator="gte", value=80)
+            ]
+        )
+    ]
+)
+```
+
+#### Type Safety and Validation
+
+FilterParam includes comprehensive type validation:
+
+```python
+# Automatic type casting
+FilterParam(field="age", operator="eq", value="25")  # Automatically cast to int
+FilterParam(field="is_active", operator="eq", value="true")  # Cast to bool
+FilterParam(field="created_at", operator="eq", value="2024-01-01")  # Cast to date
+
+
 ### 4. Pagination
 
 Pagination is enabled by default and provides comprehensive metadata.
