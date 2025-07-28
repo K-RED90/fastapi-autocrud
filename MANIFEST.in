@@ -4,9 +4,6 @@ include readme.md
 include INSTALL.md
 include LICENSE
 
-# Include the package logo
-include auto_crud/fastcrud_logo.jpg
-
 # Include Python files
 recursive-include auto_crud *.py
 
