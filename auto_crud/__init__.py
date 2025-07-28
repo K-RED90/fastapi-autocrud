@@ -6,7 +6,7 @@ REST endpoints with advanced features like filtering, pagination, searching, sor
 bulk operations, and custom endpoint decorators.
 """
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __author__ = "FastAPI-AutoCRUD Contributors"
 
 # Core imports
