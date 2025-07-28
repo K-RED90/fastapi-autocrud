@@ -35,7 +35,7 @@ pip install FastAPI-AutoCRUD
 **Requirements:**
 - Python 3.12+
 - FastAPI 0.115.14+
-- SQLAlchemy 2.0.41+
+- SQLAlchemy 2.0.41+ (with async support via greenlet)
 - Pydantic 2.11.7+
 
 ---
