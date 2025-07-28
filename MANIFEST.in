@@ -46,3 +46,13 @@ global-exclude build
 global-exclude *.db
 global-exclude *.sqlite
 global-exclude *.log 
+
+# Prune large or unnecessary directories to speed up build
+prune .git
+prune .ruff_cache
+prune .pytest_cache
+prune .mypy_cache
+prune .venv
+prune venv
+prune dist
+prune build 
