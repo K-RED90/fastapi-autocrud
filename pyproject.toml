@@ -92,16 +92,38 @@ ignore = ["E203", "B008", "C901", "B904", "E501", "B017"]
 exclude = [".git", "__pycache__", "build", "dist", ".venv", "migrations"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["auto_crud"]
+only-include = ["auto_crud"]
+sources = ["."]
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "auto_crud/**",
+only-include = [
+    "auto_crud",
     "readme.md",
     "README.md",
     "LICENSE",
     "pyproject.toml",
     "setup.py",
+]
+
+[tool.hatch.build]
+exclude = [
+    "sample/",
+    "tests/",
+    ".github/",
+    "docs/",
+    "*.sqlite",
+    "*.log",
+    "**/__pycache__/",
+    "**/*.pyc",
+    "**/*.pyo",
+    ".pytest_cache/",
+    ".ruff_cache/",
+    ".mypy_cache/",
+    ".venv/",
+    "venv/",
+    "build/",
+    "dist/",
+    ".git/",
 ]
 
 [tool.ruff.lint.per-file-ignores]

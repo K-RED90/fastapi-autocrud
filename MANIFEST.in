@@ -1,18 +1,14 @@
-# Include the README file
-include README.md
+# Only include essential files for distribution
 include readme.md
-include INSTALL.md
+include README.md
 include LICENSE
-
-# Include Python files
-recursive-include auto_crud *.py
-
-# Include configuration files
 include pyproject.toml
-include requirements.txt
 include setup.py
 
-# Exclude unnecessary files
+# Include only the main package
+recursive-include auto_crud *.py
+
+# Aggressively exclude everything else
 global-exclude *.pyc
 global-exclude *.pyo
 global-exclude *.pyd
@@ -38,4 +34,8 @@ prune .mypy_cache
 prune .venv
 prune venv
 prune dist
-prune build 
+prune build
+prune sample
+prune tests
+prune .github
+prune docs 
