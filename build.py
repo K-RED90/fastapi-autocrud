@@ -42,7 +42,7 @@ def install_build_deps():
 def build_package():
     """Build the package."""
     print("Building package...")
-    run_command("python -m build")
+    run_command("python -m build --wheel")
 
 
 def check_package():
