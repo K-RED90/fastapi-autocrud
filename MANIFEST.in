@@ -7,27 +7,10 @@ include LICENSE
 # Include Python files
 recursive-include auto_crud *.py
 
-# Include test files
-recursive-include tests *.py
-
-# Include sample files
-recursive-include sample *.py
-recursive-include sample *.txt
-recursive-include sample *.md
-
 # Include configuration files
 include pyproject.toml
 include requirements.txt
 include setup.py
-
-# Include GitHub workflows
-recursive-include .github *.yml
-recursive-include .github *.yaml
-
-# Include documentation
-recursive-include docs *.md
-recursive-include docs *.rst
-recursive-include docs *.txt
 
 # Exclude unnecessary files
 global-exclude *.pyc

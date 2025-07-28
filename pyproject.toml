@@ -95,19 +95,13 @@ exclude = [".git", "__pycache__", "build", "dist", ".venv", "migrations"]
 packages = ["auto_crud"]
 
 [tool.hatch.build.targets.sdist]
-exclude = [
-    "tests/**",
-    "sample/**",
-    ".github/**",
-    "docs/**",
-    "build/**",
-    "dist/**",
-    ".pytest_cache/**",
-    ".ruff_cache/**",
-    ".venv/**",
-    "venv/**",
-    "*.sqlite",
-    "*.log",
+include = [
+    "auto_crud/**",
+    "readme.md",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+    "setup.py",
 ]
 
 [tool.ruff.lint.per-file-ignores]
