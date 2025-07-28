@@ -1,5 +1,6 @@
 # Include the README file
 include README.md
+include readme.md
 include INSTALL.md
 include LICENSE
 
