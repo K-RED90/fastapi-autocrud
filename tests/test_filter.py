@@ -498,7 +498,7 @@ class TestQueryFilter:
     @pytest.mark.asyncio
     async def test_validate_filter_field(self, query_filter):
         """Test filter field validation."""
-        with pytest.raises(Exception):
+        with pytest.raises(FilterError):
             query_filter._validate_filter_field("non_existent")
 
     @pytest.mark.asyncio
@@ -558,7 +558,7 @@ class TestQueryFilterEdgeCases:
         query = select(User)
         filters = [FilterParam(field="age", operator="eq", value="not_a_number")]
 
-        with pytest.raises(Exception):  # Should raise type conversion error
+        with pytest.raises(FilterError):  # Should raise type conversion error
             query_filter.apply_filters(query, filters)
 
     @pytest.mark.asyncio

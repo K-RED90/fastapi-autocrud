@@ -588,7 +588,6 @@ class TestBaseCRUD:
             )
         )
         pagination = Pagination(page=1, size=2)
-        sorting = "username"
 
         result = await user_crud.apply_pagination(db_session, query, pagination)
 
@@ -951,7 +950,9 @@ class TestBaseCRUDEdgeCases:
         assert len(results) == 0  # Should return empty when no fields specified
 
     @pytest.mark.asyncio
-    async def test_get_multi_with_invalid_filters(self, user_crud, db_session):
+    async def test_get_multi_with_invalid_filters(
+        self, user_crud: BaseCRUD[User, uuid.UUID, UserCreate, UserUpdate], db_session: AsyncSession
+    ):
         """Test get_multi with invalid filters."""
         # Test with non-existent field
         filters = [FilterParam(field="non_existent_field", operator="eq", value="test")]

@@ -16,14 +16,13 @@ from typing import (
     cast,
 )
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Path, Query, status
+from fastapi import APIRouter, Body, Depends, Path, Query, status
 from fastapi.responses import Response
-from loguru import logger
 from pydantic import BaseModel, create_model
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...dependencies.page_param import PageParams
-from ..errors import NotFoundError, ValidationError
+from ..errors import NotFoundError
 from ..schemas.pagination import (
     OPERATORS,
     BulkResponse,
@@ -565,29 +564,15 @@ class RouterFactory(Generic[ModelType, PrimaryKeyType, CreateSchemaType, UpdateS
     async def perform_create(
         self, session: AsyncSession, data: CreateSchemaType = Body(...)
     ) -> ModelType:
-        try:
-            return await self.crud.create(session, obj_in=data, prefetch=self.prefetch)
-        except ValidationError as e:
-            raise HTTPException(status_code=400, detail=str(e)) from e
-        except Exception as e:
-            logger.error(f"Create error: {e}")
-            raise HTTPException(status_code=500, detail="Internal server error") from e
+        return await self.crud.create(session, obj_in=data, prefetch=self.prefetch)
 
     async def perform_read(
         self, session: AsyncSession, id: PrimaryKeyType = Path(...)
     ) -> ModelType:
-        try:
-            item = await self.crud.get_by_id(session, id=id, prefetch=self.prefetch)
-            if not item:
-                raise HTTPException(status_code=404, detail="Item not found")
-            return item
-        except NotFoundError as e:
-            raise HTTPException(status_code=404, detail="Item not found") from e
-        except HTTPException:
-            raise
-        except Exception as e:
-            logger.error(f"Read error: {e}")
-            raise HTTPException(status_code=500, detail="Internal server error") from e
+        item = await self.crud.get_by_id(session, id=id, prefetch=self.prefetch)
+        if not item:
+            raise NotFoundError(f"Item with id {id} not found")
+        return item
 
     async def perform_update(
         self,

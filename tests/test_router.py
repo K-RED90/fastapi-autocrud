@@ -190,7 +190,7 @@ class TestRouterFactory:
         non_existent_id = uuid.uuid4()
         update_data = UserUpdate(full_name="Updated Name")
 
-        with pytest.raises(NotFoundError) as exc_info:
+        with pytest.raises(NotFoundError):
             await user_router.perform_update(db_session, id=non_existent_id, data=update_data)
 
     @pytest.mark.asyncio
@@ -216,7 +216,7 @@ class TestRouterFactory:
         """Test delete operation with non-existent ID."""
         non_existent_id = uuid.uuid4()
 
-        with pytest.raises(NotFoundError) as exc_info:
+        with pytest.raises(NotFoundError):
             await user_router.perform_delete(db_session, non_existent_id)
 
     @pytest.mark.asyncio
@@ -291,7 +291,7 @@ class TestRouterFactory:
         user_ids = [user.id for user in users]
 
         # Delete users
-        response = await user_router.perform_bulk_delete(db_session, user_ids)
+        _ = await user_router.perform_bulk_delete(db_session, user_ids)
 
         result = await db_session.execute(select(User).where(User.id.in_(user_ids)))
         assert len(result.scalars().all()) == 0

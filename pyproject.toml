@@ -11,7 +11,7 @@ license = {text = "MIT"}
 requires-python = ">=3.12"
 keywords = ["fastapi", "crud", "router", "rest", "api", "sqlalchemy", "pydantic"]
 authors = [
-    {name = "FastAPI-AutoCRUD Contributors", email = "support@autocrud.dev"}
+    {name = "FastAPI-AutoCRUD Contributors", email = "zsalifu@stu.ucc.edu.gh"}
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -88,7 +88,7 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "C", "B", "Q"]
-ignore = ["E203", "B008", "C901", "B904", "E501"]
+ignore = ["E203", "B008", "C901", "B904", "E501", "B017"]
 exclude = [".git", "__pycache__", "build", "dist", ".venv", "migrations"]
 
 [tool.ruff.lint.per-file-ignores]
