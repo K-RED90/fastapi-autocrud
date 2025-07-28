@@ -15,8 +15,8 @@ Thank you for your interest in contributing to FastAPI-AutoCRUD! This document p
 1. **Fork the repository**
    ```bash
    # Fork on GitHub, then clone your fork
-   git clone https://github.com/K-RED90/auto_crud.git
-cd auto_crud
+   git clone https://github.com/K-RED90/fastapi-autocrud.git
+cd fastapi-autocrud
    ```
 
 2. **Set up development environment**
@@ -117,29 +117,6 @@ ruff check --fix .
 - Keep functions focused and single-purpose
 - Use meaningful variable and function names
 
-### Example Code Style
-
-```python
-from typing import Optional, List
-from fastapi import HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-
-async def get_user_by_id(
-    db: AsyncSession, 
-    user_id: int
-) -> Optional[User]:
-    """
-    Retrieve a user by their ID.
-    
-    Args:
-        db: Database session
-        user_id: The user's ID
-        
-    Returns:
-        User object if found, None otherwise
-    """
-    return await db.get(User, user_id)
-```
 
 ## Testing
 
@@ -197,34 +174,6 @@ async def test_create_user_success(db: AsyncSession):
 - Include type hints
 - Document exceptions that may be raised
 
-### Example Docstring
-
-```python
-def create_user_router(
-    model: Type[User],
-    create_schema: Type[UserCreate],
-    update_schema: Type[UserUpdate],
-    response_schema: Type[UserResponse],
-    prefix: str = "/users"
-) -> APIRouter:
-    """
-    Create a CRUD router for user operations.
-    
-    Args:
-        model: SQLAlchemy model class
-        create_schema: Pydantic schema for creation
-        update_schema: Pydantic schema for updates
-        response_schema: Pydantic schema for responses
-        prefix: URL prefix for the router
-        
-    Returns:
-        FastAPI router with CRUD endpoints
-        
-    Raises:
-        ValueError: If schemas are incompatible with model
-    """
-```
-
 ### README Updates
 
 - Update README.md for new features
@@ -266,7 +215,6 @@ Include in your PR description:
 - **Changes**: Detailed list of changes
 - **Testing**: How you tested the changes
 - **Breaking Changes**: Any breaking changes
-- **Screenshots**: If UI changes are involved
 
 ### Example PR Description
 
@@ -282,11 +230,6 @@ Users need to perform bulk create, update, and delete operations efficiently.
 - Add bulk endpoints to generated routers
 - Add BulkResponse schema for bulk operation responses
 - Add comprehensive tests for bulk operations
-
-## Testing
-- Added unit tests for all bulk operations
-- Added integration tests with FastAPI TestClient
-- Tested with sample application
 
 ## Breaking Changes
 None - all changes are backward compatible

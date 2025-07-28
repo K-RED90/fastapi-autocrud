@@ -13,6 +13,8 @@ A powerful, enterprise-level FastAPI CRUD router factory for SQLAlchemy models. 
 - [Advanced Usage](#advanced-usage)
 - [Best Practices](#best-practices)
 - [Troubleshooting](#troubleshooting)
+- [License](#license)
+- [Contributing](/CONTRIBUTING.md)
 
 ---
 
@@ -175,7 +177,6 @@ GET /users?filters=status__eq=active
 GET /users?filters=age__gte=18,status__in=active,pending
 GET /users?filters=created_at__between=2024-01-01,2024-01-31
 GET /users?filters=name__ilike=%john%,email__contains=gmail
-GET /users?filters=and(field1__eq=value1,field2__gt=10)
 ```
 
 **Configuration:**
@@ -197,7 +198,7 @@ user_router_factory = RouterFactory(
 - **Performance:** Restricting operators helps optimize database queries.
 - **Flexibility:** Support for complex logical expressions with `and`, `or`, `not` operators.
 
-### 3.1. FilterParam Class - Developer Guide
+### 3.1. FilterParam Class - Server Side Filtering
 
 The `FilterParam` class is the core component of FastAPI-AutoCRUD's filtering system. It provides a type-safe, flexible way to build complex database queries programmatically.
 
@@ -327,13 +328,14 @@ FilterParam(field="customer.address.city", operator="eq", value="New York")
 #### Using FilterParam in Custom Endpoints
 
 ```python
+from fastapi import Depends
 from auto_crud.core.crud.decorators import action
 from auto_crud.core.schemas.pagination import FilterParam
 
 class UserRouterFactory(RouterFactory[User, uuid.UUID, UserCreate, UserUpdate]):
     
     @action(method="GET", detail=False, url_path="premium")
-    async def get_premium_users(self, session: AsyncSession):
+    async def get_premium_users(self, session: AsyncSession = Depends(get_session)):
         """Get all premium users with complex filtering."""
         
         filters = [
@@ -350,7 +352,7 @@ class UserRouterFactory(RouterFactory[User, uuid.UUID, UserCreate, UserUpdate]):
         return await self.crud.list_objects(session, filters=filters)
     
     @action(method="GET", detail=False, url_path="search")
-    async def search_users(self, session: AsyncSession, q: str):
+    async def search_users(self, q: str, session: AsyncSession = Depends(get_session)):
         """Custom search endpoint with multiple field matching."""
         
         filters = [
@@ -580,7 +582,7 @@ from auto_crud.core.crud.decorators import action
 
 class UserRouterFactory(RouterFactory[User, uuid.UUID, UserCreate, UserUpdate]):
     @action(method="GET", detail=False, url_path="verified")
-    async def get_verified_users(self, session: AsyncSession):
+    async def get_verified_users(self, session: AsyncSession = Depends(get_session)):
         filters = [
             FilterParam(field="is_verified", operator="eq", value=True)
         ]
@@ -629,4 +631,4 @@ app.include_router(user_router, prefix="/api/v1")
 ---
 
 ## License
-MIT
+This project is licensed under the MIT License.
