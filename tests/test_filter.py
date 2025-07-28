@@ -495,7 +495,6 @@ class TestQueryFilter:
         assert "is_active" in columns
         assert "created_at" in columns
 
-
     @pytest.mark.asyncio
     async def test_cast_value_to_column_type(self, query_filter: QueryFilter):
         """Test casting values to column types."""

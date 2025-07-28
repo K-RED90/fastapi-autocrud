@@ -1,7 +1,5 @@
 from enum import Enum
 
-import pytest
-
 from auto_crud.core.crud.decorators import ActionMetadata, action
 
 
@@ -575,4 +573,3 @@ class TestActionDecoratorEdgeCases:
         assert metadata.kwargs["empty_string_kwarg"] == ""
         assert metadata.kwargs["normal_string_kwarg"] == "test"
         assert metadata.kwargs["special_chars_kwarg"] == "!@#$%^&*()"
-

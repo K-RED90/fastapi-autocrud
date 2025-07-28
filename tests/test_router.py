@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import Dict, Literal, Type
 
 import pytest
-from fastapi import HTTPException
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
 from sqlalchemy import select
@@ -163,7 +162,6 @@ class TestRouterFactory:
 
         with pytest.raises(NotFoundError):
             await user_router.perform_read(db_session, non_existent_id)
-
 
     @pytest.mark.asyncio
     async def test_perform_update_success(self, user_router, db_session):
