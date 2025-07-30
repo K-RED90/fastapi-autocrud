@@ -384,12 +384,13 @@ def create_test_user(**kwargs) -> UserCreate:
     """Create a test user with default values."""
     import random
     import time
+    import uuid
 
-    timestamp = int(time.time() * 1000)  # Use timestamp for uniqueness
-    random_suffix = random.randint(1000, 9999)  # Add random suffix for uniqueness
+    # Use UUID for uniqueness to avoid collisions in fast test loops
+    unique_id = uuid.uuid4().hex
     defaults = {
-        "username": f"testuser_{timestamp}_{random_suffix}",
-        "email": f"test_{timestamp}_{random_suffix}@example.com",
+        "username": f"testuser_{unique_id}",
+        "email": f"test_{unique_id}@example.com",
         "password": "password123",
         "full_name": "Test User",
         "bio": "Test bio",
