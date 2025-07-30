@@ -160,8 +160,31 @@ class QueryFilter(Generic[ModelType]):
 
         return "default"
 
-    def _validate_operator_for_field(self, field_name: str, operator: OPERATORS) -> bool:
-        model_class = self.model
+    def _validate_operator_for_field(
+        self,
+        field_name: str,
+        operator: OPERATORS,
+        model_class: Optional[Type[Any]] = None,
+    ) -> bool:
+        """Validate that a given operator is allowed for *field_name*.
+
+        Parameters
+        ----------
+        field_name:
+            Name of the column/attribute to be filtered. For nested paths (e.g. "members.user_id")
+            the *field_name* passed **here** should be the final attribute name (e.g. "user_id").
+        operator:
+            Operator that will be applied to the field.
+        model_class:
+            The SQLAlchemy mapped class that actually owns *field_name*. When *None* the model
+            provided when instantiating the `QueryFilter` is used. Supplying *model_class* is
+            essential for validating nested relationships where the terminal attribute belongs to
+            a different model than the one used to create the filter.
+        """
+
+        # If the caller has not provided an explicit model, fall back to the primary model
+        model_class = model_class or self.model
+
         if "." in field_name:
             return True
 
@@ -426,8 +449,12 @@ class QueryFilter(Generic[ModelType]):
         if column_attr is None:
             raise FilterError(f"Field '{column_name}' not found in model {current_model.__name__}")
 
-        # Validate and build the base condition
-        self._validate_operator_for_field(column_name, filter_param.operator)
+        # Validate and build the base condition using the *current_model* that owns *column_name*
+        self._validate_operator_for_field(
+            column_name,
+            filter_param.operator,
+            model_class=current_model,
+        )
         validated_value = self._validate_filter_value(
             column_attr, filter_param.operator, filter_param.value
         )
